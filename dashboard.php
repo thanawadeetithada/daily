@@ -2,6 +2,14 @@
 session_start();
 include 'db.php';
 
+// ตรวจสอบว่าล็อกอินหรือยัง
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit();
+}
+
+$permissions = $_SESSION['permissions'];
+$fullname = $_SESSION['fullname'];
 ?>
 
 <!DOCTYPE html>
@@ -91,7 +99,7 @@ include 'db.php';
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #004085; padding-left: 2rem;">
         <div class="container-fluid">
-            <a class="navbar-brand" href="dashboard.php">แดชอบร์ด</a>
+            <a class="navbar-brand" href="dashboard.php">dashboard</a>
             <button class="navbar-toggler text-end" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -100,7 +108,7 @@ include 'db.php';
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="dashboard.php">แดชอบร์ด</a>
+                        <a class="nav-link active" href="dashboard.php">dashboard</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="parcel_management.php">จัดการพัสดุ</a>
@@ -117,9 +125,10 @@ include 'db.php';
 
     <div class="container-wrapper">
         <div class="container">
-            <h2 class="text-center mb-4">Hi Baifern</h2>
+            <h2 class="text-center mb-4">Hi <?php echo htmlspecialchars($fullname); ?></h2>
 
             <div class="row">
+                <?php if (in_array('income_expenses', $permissions)): ?>
                 <div class="col-md-6 mb-3">
                     <a href="income_expenses.php" class="text-decoration-none">
                         <div class="card text-center p-4 text-white">
@@ -127,6 +136,8 @@ include 'db.php';
                         </div>
                     </a>
                 </div>
+                <?php endif; ?>
+                <?php if (in_array('shop', $permissions)): ?>
                 <div class="col-md-6 mb-3">
                     <a href="shop.php" class="text-decoration-none">
                         <div class="card text-center p-4  text-white">
@@ -134,6 +145,8 @@ include 'db.php';
                         </div>
                     </a>
                 </div>
+                <?php endif; ?>
+                <?php if (in_array('check_mood', $permissions)): ?>
                 <div class="col-md-6 mb-3">
                     <a href="check_mood.php" class="text-decoration-none">
                         <div class="card text-center p-4 text-white">
@@ -141,6 +154,8 @@ include 'db.php';
                         </div>
                     </a>
                 </div>
+                <?php endif; ?>
+                <?php if (in_array('todo_list', $permissions)): ?>
                 <div class="col-md-6 mb-3">
                     <a href="todo_list.php" class="text-decoration-none">
                         <div class="card text-center p-4 text-white">
@@ -148,6 +163,7 @@ include 'db.php';
                         </div>
                     </a>
                 </div>
+                <?php endif; ?>
             </div>
         </div>
     </div>

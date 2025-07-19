@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['user_role'] = $user['userrole'];
                 $_SESSION['fullname'] = $user['fullname']; 
-                
+                $_SESSION['permissions'] = json_decode($user['permissions'], true);
                 if ($user['userrole'] === 'user') {
                     header(header: "Location: dashboard.php");
                 } else {
@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $error_message = "❌ รหัสผ่านไม่ถูกต้อง";
         }
     } else {
-        $error_message = "❌ =ื่อผู้ใช้งานไม่ได้ลงทะเบียน";
+        $error_message = "❌ ชื่อผู้ใช้งานไม่ได้ลงทะเบียน";
     }
 
     $stmt->close();
